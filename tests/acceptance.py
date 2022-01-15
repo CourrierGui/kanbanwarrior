@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 
-from utils.taskwarrior import list_domains, run_task
+from utils.taskwarrior import list_domains, run_task, list_projects
 
 class TestTaskwarriorExports(unittest.TestCase):
 
@@ -11,6 +11,18 @@ class TestTaskwarriorExports(unittest.TestCase):
         run_task('1', 'delete')
         run_task('2', 'delete')
         run_task('3', 'delete')
+
+    def test_one_project(self):
+        run_task('add', '+one', 'task description')
+        self.assertEqual(list_projects(), ['one'])
+
+    def test_projects(self):
+        run_task('add', '+one', 'task description')
+        run_task('add', '+two', 'task description')
+        run_task('add', '+three', 'task description')
+
+        self.assertEqual(sorted(list_projects()),
+                         sorted(['one', 'two', 'three']))
 
     def test_domains(self):
         run_task('add', 'project:one', 'task description')
@@ -34,6 +46,8 @@ class TestTaskwarriorExports(unittest.TestCase):
         self.assertEqual(run_task('_projects').returncode, 0)
 
 if __name__ == '__main__':
-    root = os.getenv('PYTHONPATH')
-    os.environ['TASKRC'] = os.path.join(root, 'tests', '.taskrc')
+    if os.getenv('TASKRC') is None:
+        testdir = os.getenv('TESTDIR')
+        os.environ['TASKRC'] = os.path.join(testdir, '.taskrc')
+
     unittest.main()
