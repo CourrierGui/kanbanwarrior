@@ -14,6 +14,8 @@ class TestTaskwarriorExports(unittest.TestCase):
         run_task('1', 'delete')
         run_task('2', 'delete')
         run_task('3', 'delete')
+        # Remove completed as old tags will be listed from there
+        os.remove(os.path.join(testdir, '.task/completed.data'))
 
     def test_one_project(self):
         run_task('add', '+one', 'task description')
@@ -65,7 +67,35 @@ class TestTaskwarriorExports(unittest.TestCase):
         self.assertEqual(tasks[0]["description"], "test")
         self.assertEqual(tasks[1]["description"], "test")
 
+    def test_list_pending_by_domain(self):
+        run_task('add', 'test 1', 'project:test1')
+        run_task('add', 'test 2', 'project:test2')
+
+        domain1 = list_pending('project:test1')
+        domain2 = list_pending('project:test2')
+
+        self.assertEqual(len(domain1), 1)
+        self.assertEqual(len(domain2), 1)
+
+        self.assertEqual(domain1[0]["description"], "test 1")
+        self.assertEqual(domain2[0]["description"], "test 2")
+
+    def test_list_pending_by_project(self):
+        run_task('add', '+test1', 'test 1')
+        run_task('add', '+test2', 'test 2')
+
+        project1 = list_pending('+test1')
+        project2 = list_pending('+test2')
+
+        self.assertEqual(len(project1), 1)
+        self.assertEqual(len(project2), 1)
+
+        self.assertEqual(project1[0]["description"], "test 1")
+        self.assertEqual(project2[0]["description"], "test 2")
+
 if __name__ == '__main__':
+    testdir = 'tests'
+
     if os.getenv('TASKRC') is None:
         testdir = os.getenv('TESTDIR')
         os.environ['TASKRC'] = os.path.join(testdir, '.taskrc')
