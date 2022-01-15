@@ -2,17 +2,17 @@
 
 PROJECTDIR=${PROJECTDIR:-$(pwd)}
 
-taskrc=$(cat <<EOF
-confirmation=no
-data.location=.task
-EOF
-)
-
-echo "$taskrc" > .taskrc
-rm -fr .task/*
-
 export TESTDIR="$PROJECTDIR/tests"
 export TASKRC="$PROJECTDIR/tests/.taskrc"
 export PYTHONPATH="$PROJECTDIR"
 
-python acceptance.py
+taskrc=$(cat <<EOF
+confirmation=no
+data.location=$TESTDIR/.task
+EOF
+)
+
+echo "$taskrc" > "$TESTDIR/.taskrc"
+rm -fr "$TESTDIR"/.task/*
+
+python "$TESTDIR/acceptance.py"

@@ -9,7 +9,7 @@ import sys
 def main():
     parser= ArgumentParser(description='kanbanwarrior')
     parser.add_argument(dest='action',
-                        help="one of: domains")
+                        help="one of: domains, projects")
     args = parser.parse_args()
 
     dispatch_action(args.action, parser)
