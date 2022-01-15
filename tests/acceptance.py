@@ -7,6 +7,8 @@ from utils.taskwarrior import (list_domains,
                                list_projects,
                                list_pending)
 
+from utils import html
+
 class TestTaskwarriorExports(unittest.TestCase):
 
     def tearDown(self):
@@ -92,6 +94,17 @@ class TestTaskwarriorExports(unittest.TestCase):
 
         self.assertEqual(project1[0]["description"], "test 1")
         self.assertEqual(project2[0]["description"], "test 2")
+
+class TestHTMLGeneration(unittest.TestCase):
+
+    def test_empty_td_generation(self):
+        self.assertEqual(html.Tag('td').dump(), '<td/>')
+
+    def test_empty_tr_generation(self):
+        self.assertEqual(html.Tag('tr').dump(), '<tr/>')
+
+    def test_td_with_content(self):
+        self.assertEqual(html.Tag('td', 'test').dump(), '<td>test</td>')
 
 if __name__ == '__main__':
     testdir = 'tests'
