@@ -1,4 +1,5 @@
 import subprocess
+import json
 
 
 default_tags = {
@@ -44,3 +45,7 @@ def list_projects():
     projects = run_task('_tags')
     tags = list_from_newline(projects.stdout)
     return list(set(tags).difference(default_tags))
+
+
+def list_pending():
+    return json.loads(run_task('status:pending', 'export').stdout)

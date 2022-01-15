@@ -2,7 +2,10 @@ import unittest
 import sys
 import os
 
-from utils.taskwarrior import list_domains, run_task, list_projects
+from utils.taskwarrior import (list_domains,
+                               run_task,
+                               list_projects,
+                               list_pending)
 
 class TestTaskwarriorExports(unittest.TestCase):
 
@@ -44,6 +47,23 @@ class TestTaskwarriorExports(unittest.TestCase):
 
     def test_run_task(self):
         self.assertEqual(run_task('_projects').returncode, 0)
+
+    def test_list_no_pending(self):
+        tasks = list_pending()
+        self.assertEqual(tasks, [])
+
+    def test_list_task(self):
+        run_task('add', 'test')
+        tasks = list_pending()
+        self.assertEqual(tasks[0]["description"], "test")
+
+    def test_list_tasks(self):
+        run_task('add', "test")
+        run_task('add', "test")
+
+        tasks = list_pending()
+        self.assertEqual(tasks[0]["description"], "test")
+        self.assertEqual(tasks[1]["description"], "test")
 
 if __name__ == '__main__':
     if os.getenv('TASKRC') is None:
