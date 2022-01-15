@@ -64,3 +64,19 @@ class TableHeader:
 
     def insert(self, content: str) -> None:
         self.node.insert(TableData(content))
+
+
+class Table:
+
+    def __init__(self):
+        self.node = Node('table')
+
+    def dump(self) -> str:
+        return self.node.dump()
+
+    def make_header(self) -> Node:
+        node = TableHeader()
+        self.node.insert(node)
+
+        return node
+
