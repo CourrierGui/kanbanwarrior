@@ -190,13 +190,14 @@ class TestTaskToHTMLConversions(unittest.TestCase):
         # Remove completed as old tags will be listed from there
         os.remove(os.path.join(testdir, '.task/completed.data'))
 
-    def test_task_to_table_row(self):
-        run_task('add', 'test')
-        task = list_pending()
-        self.assertEqual(len(task), 1)
-
-        row = tc.task_to_row(task[0])
-        self.assertEqual(row.dump(), '<tr><td>1</td><td>test</td></tr>')
+    def test_tasks_to_table(self):
+        run_task('add', 'test 1')
+        run_task('add', 'test 2')
+        tasks = list_pending()
+        self.assertEqual(len(tasks), 2)
+        table = tc.tasks_to_table(tasks)
+        self.assertEqual(table.dump(),
+                '<table><th><td>id</td><td>description</td></th><tr><td>1</td><td>test 1</td></tr><tr><td>2</td><td>test 2</td></tr></table>')
 
 
 if __name__ == '__main__':
