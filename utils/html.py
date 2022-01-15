@@ -85,5 +85,3 @@ class Table:
         self.node.insert(node)
 
         return node
-
-

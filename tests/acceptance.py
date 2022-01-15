@@ -8,6 +8,7 @@ from utils.taskwarrior import (list_domains,
                                list_pending)
 
 from utils import html
+from utils import task_converter as tc
 
 class TestTaskwarriorExports(unittest.TestCase):
 
@@ -47,7 +48,7 @@ class TestTaskwarriorExports(unittest.TestCase):
         """Make sure that we are not modifying the system task list"""
         if list_domains() != []:
             self.fail("The tests are not run on an empty instance, "
-                    "check your config at tests/.taskrc")
+                      "check your config at tests/.taskrc")
 
     def test_run_task(self):
         self.assertEqual(run_task('_projects').returncode, 0)
@@ -177,6 +178,26 @@ class TestHTMLGeneration(unittest.TestCase):
         row.insert('test 2')
         self.assertEqual(table.dump(),
                 '<table><tr><td>test 1</td></tr><tr><td>test 2</td></tr></table>')
+
+
+class TestTaskToHTMLConversions(unittest.TestCase):
+
+    def tearDown(self):
+        # taskwarrior won't let me delete all tasks automaticaly...
+        run_task('1', 'delete')
+        run_task('2', 'delete')
+        run_task('3', 'delete')
+        # Remove completed as old tags will be listed from there
+        os.remove(os.path.join(testdir, '.task/completed.data'))
+
+    def test_task_to_table_row(self):
+        run_task('add', 'test')
+        task = list_pending()
+        self.assertEqual(len(task), 1)
+
+        row = tc.task_to_row(task[0])
+        self.assertEqual(row.dump(), '<tr><td>1</td><td>test</td></tr>')
+
 
 if __name__ == '__main__':
     testdir = 'tests'
