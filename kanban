@@ -1,11 +1,19 @@
 #!/bin/python
 
-from utils.taskwarrior import list_domains
-import argparse
+from utils.cli import dispatch_action
+from argparse import ArgumentParser
+
 import sys
 
+
 def main():
-    parser= argparse.ArguementParser(description='kanbanwarrior')
+    parser= ArgumentParser(description='kanbanwarrior')
+    parser.add_argument(dest='action',
+                        help="one of: domains")
+    args = parser.parse_args()
+
+    dispatch_action(args.action, parser)
+
 
 if __name__ == '__main__':
     main()
