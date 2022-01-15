@@ -8,6 +8,6 @@ def run_task(*args: str):
 def list_domains():
     domains = run_task('_projects')
     if len(domains.stdout) > 0:
-        return domains.stdout.split('\n')
+        return domains.stdout.strip('\n').split('\n')
     else:
         return []
