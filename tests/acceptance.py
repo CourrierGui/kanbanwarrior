@@ -164,6 +164,20 @@ class TestHTMLGeneration(unittest.TestCase):
         self.assertEqual(table.dump(),
                 '<table><th><td>test 1</td><td>test 2</td></th></table>')
 
+    def test_table_with_empty_row(self):
+        table = html.Table()
+        row = table.add_row()
+        self.assertEqual(table.dump(), '<table><tr/></table>')
+
+    def test_table_with_rows(self):
+        table = html.Table()
+        row = table.add_row()
+        row.insert('test 1')
+        row = table.add_row()
+        row.insert('test 2')
+        self.assertEqual(table.dump(),
+                '<table><tr><td>test 1</td></tr><tr><td>test 2</td></tr></table>')
+
 if __name__ == '__main__':
     testdir = 'tests'
 

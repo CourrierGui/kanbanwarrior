@@ -80,3 +80,10 @@ class Table:
 
         return node
 
+    def add_row(self) -> Node:
+        node = TableRow()
+        self.node.insert(node)
+
+        return node
+
+
