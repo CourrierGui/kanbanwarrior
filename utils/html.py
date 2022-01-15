@@ -1,31 +1,54 @@
-class Tag:
+from abc import ABC, abstractmethod
 
-    def __init__(self, tag: str, content: str = ''):
+class Text:
+
+    def __init__(self, value: str):
+        self.value = value
+
+    def dump(self) -> str:
+        return self.value
+
+
+class Node:
+
+    def __init__(self, tag: str):
         self.tag = tag
+        self.nodes = []
+
+    def _dump_children(self) -> str:
+        value = ""
+        for node in self.nodes:
+            value += node.dump()
+        return value
+
+    def insert(self, node) -> None:
+        self.nodes.append(node)
+
+    def dump(self) -> str:
+        if len(self.nodes) > 0:
+            return ('<' + self.tag + '>'
+                    + self._dump_children()
+                    + '</' + self.tag + '>')
+        else:
+            return '<' + self.tag + '/>'
+
+
+class TableData:
+
+    def __init__(self, content: str):
         self.content = content
 
     def dump(self) -> str:
-        if len(self.content) > 0:
-            return ("<" + self.tag + ">"
-                    + self.content
-                    + "</" + self.tag + ">")
-        else:
-            return "<" + self.tag + "/>"
+        return '<td>' + self.content + '</td>'
 
 
 class TableRow:
 
     def __init__(self):
-        self.columns = []
+        self.row = Node('tr')
 
     def dump(self) -> str:
-        value = '<tr>'
-
-        for columns in self.columns:
-            value += columns.dump()
-
-        value += '</tr>'
-        return value
+        return self.row.dump()
 
     def insert(self, content: str) -> None:
-        self.columns.append(Tag('td', content))
+        self.row.insert(TableData(content))

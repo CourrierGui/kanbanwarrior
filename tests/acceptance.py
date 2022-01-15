@@ -97,17 +97,30 @@ class TestTaskwarriorExports(unittest.TestCase):
 
 class TestHTMLGeneration(unittest.TestCase):
 
-    def test_empty_td_generation(self):
-        self.assertEqual(html.Tag('td').dump(), '<td/>')
+    def test_empty_text_node(self):
+        self.assertEqual(html.Text('').dump(), '')
 
-    def test_empty_tr_generation(self):
-        self.assertEqual(html.Tag('tr').dump(), '<tr/>')
+    def test_text_node(self):
+        self.assertEqual(html.Text('test').dump(), 'test')
 
-    def test_td_with_content(self):
-        self.assertEqual(html.Tag('td', 'test').dump(), '<td>test</td>')
+    def test_empty_html_node(self):
+        self.assertEqual(html.Node('td').dump(), '<td/>')
+
+    def test_empty_tr_node(self):
+        self.assertEqual(html.Node('tr').dump(), '<tr/>')
+
+    def test_node_with_text(self):
+        node = html.Node('tr')
+        node.insert(html.Text('test'))
+        self.assertEqual(node.dump(), '<tr>test</tr>')
+
+    def test_table_data(self):
+        tabledata = html.TableData('test')
+        self.assertEqual(tabledata.dump(),
+                         '<td>test</td>')
 
     def test_empty_row_table(self):
-        self.assertEqual(html.TableRow().dump(), '<tr></tr>')
+        self.assertEqual(html.TableRow().dump(), '<tr/>')
 
     def test_table_row_with_one_row(self):
         row = html.TableRow()
