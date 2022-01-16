@@ -17,30 +17,32 @@ def exec_projects():
         print(project)
 
 
+def table_from_query(*args: str) -> html.Table:
+    tasks = tw.list_tasks(*args)
+    return tc.tasks_to_table(tasks)
+
+
 def exec_page():
-    todo = tw.list_pending('-ACTIVE')
-    todo = tc.tasks_to_table(todo)
-
-    inprogress = tw.list_tasks('export', 'active')
-    inprogress = tc.tasks_to_table(inprogress)
-
-    finished = tw.list_tasks('end.after:today-1wk', 'export', 'completed')
-    finished = tc.tasks_to_table(finished)
-
-    inbox = tw.list_pending('-ACTIVE', '+inbox')
-    inbox = tc.tasks_to_table(inbox)
+    inbox = table_from_query('status:pending', '-ACTIVE', '+inbox', 'export')
+    todo = table_from_query('status:pending', '-ACTIVE', '-inbox', 'export')
+    inprogress = table_from_query('export', 'active')
+    done = table_from_query('end.after:today-1wk', 'export', 'completed')
 
     table = html.Table()
     header = table.make_header()
-    header.insert('Inbox')
-    header.insert('TODO')
-    header.insert('In Progess')
-    header.insert('Done')
     row = table.add_row()
+
+    header.insert('Inbox')
     row.insert_node(inbox)
+
+    header.insert('TODO')
     row.insert_node(todo)
+
+    header.insert('In Progess')
     row.insert_node(inprogress)
-    row.insert_node(finished)
+
+    header.insert('Done')
+    row.insert_node(done)
 
     print(table.dump())
 
