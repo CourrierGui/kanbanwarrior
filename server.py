@@ -43,6 +43,16 @@ def get_backlog():
     return table.dump()
 
 
+@app.route('/projects')
+def get_projects():
+    return 'projects'
+
+
+@app.route('/domains')
+def get_domains():
+    return 'domains'
+
+
 @app.route('/<string:action>/<string:name>')
 def get_project_backlog(action: str, name: str):
     if action == 'domain':
