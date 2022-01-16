@@ -45,7 +45,17 @@ def get_backlog():
 
 @app.route('/projects')
 def get_projects():
-    return 'projects'
+    table = _html.Table()
+    projects = tw.list_projects()
+
+    header = table.make_header()
+    header.insert('Projects')
+
+    for project in projects:
+        row = table.add_row()
+        row.insert(project)
+
+    return table.dump()
 
 
 @app.route('/domains')
