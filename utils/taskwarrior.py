@@ -36,13 +36,21 @@ def list_from_newline(output: str):
         return []
 
 
-def list_domains():
-    domains = run_task('_projects')
+def list_domains(project: str = None) -> list[str]:
+    if project:
+        domains = run_task('+' + project, '_projects')
+    else:
+        domains = run_task('_projects')
+
     return list_from_newline(domains.stdout)
 
 
-def list_projects():
-    projects = run_task('_tags')
+def list_projects(domain: str = None) -> list[str]:
+    if domain:
+        projects = run_task('project:' + domain, '_tags')
+    else:
+        projects = run_task('_tags')
+
     tags = list_from_newline(projects.stdout)
     return list(set(tags).difference(default_tags))
 

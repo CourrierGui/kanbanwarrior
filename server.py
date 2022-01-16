@@ -8,9 +8,8 @@ from utils import _html
 app = Flask(__name__)
 
 
-def build_domain_table() -> _html.Table:
+def build_domain_table(domains: list[str]) -> _html.Table:
     table = _html.Table()
-    domains = tw.list_domains()
 
     header = table.make_header()
     header.insert('Domains')
@@ -24,8 +23,7 @@ def build_domain_table() -> _html.Table:
     return table
 
 
-def build_project_table() -> _html.Table:
-    projects = tw.list_projects()
+def build_project_table(projects: list[str]) -> _html.Table:
     table = _html.Table()
 
     header = table.make_header()
@@ -80,8 +78,15 @@ def build_page(action: str, value: str) -> _html.Table:
     main = _html.Table()
     rows = main.add_row(align_top=True)
 
-    rows.insert_node(build_domain_table())
-    rows.insert_node(build_project_table())
+    if action == 'projects':
+        rows.insert_node(build_project_table(tw.list_projects()))
+        rows.insert_node(build_domain_table(tw.list_domains(value)))
+    elif action == 'domains':
+        rows.insert_node(build_domain_table(tw.list_domains()))
+        rows.insert_node(build_project_table(tw.list_projects(value)))
+    else:
+        return None
+
     kanban = build_kanban_board(action, value);
     if kanban:
         rows.insert_node(kanban)
@@ -92,12 +97,19 @@ def build_page(action: str, value: str) -> _html.Table:
 @app.route('/')
 def get_backlog():
     table = cli.build_page()
-    return table.dump()
+    if not table:
+        return 'page not found'
+    else:
+        return table.dump()
 
 
 @app.route('/<string:action>/<string:name>')
 def get_project_backlog(action: str, name: str):
-    return build_page(action, name).dump()
+    table = build_page(action, name)
+    if not table:
+        return 'page not found: /' + action + '/' + name
+    else:
+        return table.dump()
 
 
 if __name__ == '__main__':
