@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-
 class Text:
 
     def __init__(self, value: str):
