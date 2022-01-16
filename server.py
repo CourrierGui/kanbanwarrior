@@ -60,7 +60,17 @@ def get_projects():
 
 @app.route('/domains')
 def get_domains():
-    return 'domains'
+    table = _html.Table()
+    domains = tw.list_domains()
+
+    header = table.make_header()
+    header.insert('Domains')
+
+    for domain in domains:
+        row = table.add_row()
+        row.insert(domain)
+
+    return table.dump()
 
 
 @app.route('/<string:action>/<string:name>')
