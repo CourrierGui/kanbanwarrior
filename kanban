@@ -3,11 +3,9 @@
 from utils.cli import dispatch_action
 from argparse import ArgumentParser
 
-import sys
-
 
 def main():
-    parser= ArgumentParser(description='kanbanwarrior')
+    parser = ArgumentParser(description='kanbanwarrior')
     parser.add_argument(dest='action',
                         help="one of: domains, projects, page")
     args = parser.parse_args()
