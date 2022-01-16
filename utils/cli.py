@@ -22,7 +22,7 @@ def table_from_query(*args: str) -> html.Table:
     return tc.tasks_to_table(tasks)
 
 
-def exec_page():
+def build_page():
     inbox = table_from_query('status:pending', '-ACTIVE', '+inbox', 'export')
     todo = table_from_query('status:pending', '-ACTIVE', '-inbox', 'export')
     inprogress = table_from_query('export', 'active')
@@ -45,6 +45,11 @@ def exec_page():
     header.insert('Done')
     row.insert_node(done)
 
+    return table
+
+
+def exec_page():
+    table = build_page()
     print(table.dump())
 
 
