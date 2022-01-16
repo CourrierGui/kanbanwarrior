@@ -11,7 +11,8 @@ class Text:
 
 class Node:
 
-    def __init__(self, tag: str):
+    def __init__(self, tag: str, tags: str=''):
+        self.tags = tags
         self.tag = tag
         self.nodes = []
 
@@ -25,12 +26,16 @@ class Node:
         self.nodes.append(node)
 
     def dump(self) -> str:
+        first_tag = self.tag
+        if self.tags:
+            first_tag += ' ' + self.tags
+
         if len(self.nodes) > 0:
-            return ('<' + self.tag + '>'
+            return ('<' + first_tag + '>'
                     + self._dump_children()
                     + '</' + self.tag + '>')
         else:
-            return '<' + self.tag + '/>'
+            return '<' + first_tag + '/>'
 
 
 class TableData:
@@ -44,8 +49,12 @@ class TableData:
 
 class TableRow:
 
-    def __init__(self):
-        self.row = Node('tr')
+    def __init__(self, valign=''):
+        if valign:
+            value = 'valign="' + valign + '"'
+            self.row = Node('tr', tags=value)
+        else:
+            self.row = Node('tr')
 
     def dump(self) -> str:
         return self.row.dump()

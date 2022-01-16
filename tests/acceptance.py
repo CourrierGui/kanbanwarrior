@@ -188,7 +188,9 @@ class TestTaskToHTMLConversions(unittest.TestCase):
         run_task('2', 'delete')
         run_task('3', 'delete')
         # Remove completed as old tags will be listed from there
-        os.remove(os.path.join(testdir, '.task/completed.data'))
+        completed = os.path.join(testdir, '.task/completed.data') 
+        if os.path.exists(completed):
+            os.remove(completed)
 
     def test_tasks_to_table(self):
         run_task('add', 'test 1')
@@ -198,6 +200,15 @@ class TestTaskToHTMLConversions(unittest.TestCase):
         table = tc.tasks_to_table(tasks)
         self.assertEqual(table.dump(),
                 '<table><tr><th>id</th><th>description</th></tr><tr><td>1</td><td>test 1</td></tr><tr><td>2</td><td>test 2</td></tr></table>')
+
+    def test_vertical_alignment_on_empty_row(self):
+        row = html.TableRow(valign="top")
+        self.assertEqual(row.dump(), '<tr valign="top"/>')
+
+    def test_vertical_alignment_on_row(self):
+        row = html.TableRow(valign="top")
+        row.insert('test')
+        self.assertEqual(row.dump(), '<tr valign="top"><td>test</td></tr>')
 
 
 if __name__ == '__main__':
