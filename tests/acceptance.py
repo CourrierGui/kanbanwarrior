@@ -138,7 +138,7 @@ class TestHTMLGeneration(unittest.TestCase):
 
     def test_empty_table_header(self):
         header = html.TableHeader()
-        self.assertEqual(header.dump(), '<th/>')
+        self.assertEqual(header.dump(), '<tr/>')
 
     def test_table_header(self):
         header = html.TableHeader()
@@ -146,7 +146,7 @@ class TestHTMLGeneration(unittest.TestCase):
         header.insert("test 2")
         header.insert("test 3")
         self.assertEqual(header.dump(),
-                '<th><td>test 1</td><td>test 2</td><td>test 3</td></th>')
+                '<tr><th>test 1</th><th>test 2</th><th>test 3</th></tr>')
 
     def test_table(self):
         table = html.Table()
@@ -155,7 +155,7 @@ class TestHTMLGeneration(unittest.TestCase):
     def test_table_with_empty_header(self):
         table = html.Table()
         table.make_header()
-        self.assertEqual(table.dump(), '<table><th/></table>')
+        self.assertEqual(table.dump(), '<table><tr/></table>')
 
     def test_table_with_header(self):
         table = html.Table()
@@ -163,7 +163,7 @@ class TestHTMLGeneration(unittest.TestCase):
         header.insert('test 1')
         header.insert('test 2')
         self.assertEqual(table.dump(),
-                '<table><th><td>test 1</td><td>test 2</td></th></table>')
+                '<table><tr><th>test 1</th><th>test 2</th></tr></table>')
 
     def test_table_with_empty_row(self):
         table = html.Table()
@@ -197,7 +197,7 @@ class TestTaskToHTMLConversions(unittest.TestCase):
         self.assertEqual(len(tasks), 2)
         table = tc.tasks_to_table(tasks)
         self.assertEqual(table.dump(),
-                '<table><th><td>id</td><td>description</td></th><tr><td>1</td><td>test 1</td></tr><tr><td>2</td><td>test 2</td></tr></table>')
+                '<table><tr><th>id</th><th>description</th></tr><tr><td>1</td><td>test 1</td></tr><tr><td>2</td><td>test 2</td></tr></table>')
 
 
 if __name__ == '__main__':
