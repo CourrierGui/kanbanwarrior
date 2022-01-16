@@ -201,6 +201,14 @@ class TestTaskToHTMLConversions(unittest.TestCase):
         self.assertEqual(table.dump(),
                 '<table><tr><th>id</th><th>description</th></tr><tr><td>1</td><td>test 1</td></tr><tr><td>2</td><td>test 2</td></tr></table>')
 
+    def test_tasks_to_table_without_id(self):
+        run_task('add', 'test')
+        task = list_pending()
+        self.assertEqual(len(task), 1)
+        table = tc.tasks_to_table(task, id=False)
+        self.assertEqual(table.dump(),
+                '<table><tr><th>description</th></tr><tr><td>test</td></tr></table>')
+
     def test_vertical_alignment_on_empty_row(self):
         row = html.TableRow(valign="top")
         self.assertEqual(row.dump(), '<tr valign="top"/>')
