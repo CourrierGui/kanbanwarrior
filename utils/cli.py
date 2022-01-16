@@ -1,6 +1,6 @@
 from . import taskwarrior as tw
 from . import task_converter as tc
-from . import html
+from . import _html as html
 
 from argparse import ArgumentParser
 

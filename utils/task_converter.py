@@ -1,4 +1,4 @@
-from . import html
+from . import _html as html
 
 def tasks_to_table(tasks: list[dict], id: bool = True):
     table = html.Table()

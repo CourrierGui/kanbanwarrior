@@ -7,7 +7,7 @@ from utils.taskwarrior import (list_domains,
                                list_projects,
                                list_pending)
 
-from utils import html
+from utils import _html as html
 from utils import task_converter as tc
 
 class TestTaskwarriorExports(unittest.TestCase):
