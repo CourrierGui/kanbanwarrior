@@ -96,8 +96,8 @@ class Table:
 
         return node
 
-    def add_row(self) -> Node:
-        node = TableRow()
+    def add_row(self, align_top=False) -> Node:
+        node = TableRow(valign="top") if align_top else TableRow()
         self.node.insert(node)
 
         return node

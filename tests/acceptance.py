@@ -210,6 +210,13 @@ class TestTaskToHTMLConversions(unittest.TestCase):
         row.insert('test')
         self.assertEqual(row.dump(), '<tr valign="top"><td>test</td></tr>')
 
+    def test_insertion_of_top_align_row(self):
+        table = html.Table()
+        row = table.add_row(align_top=True)
+        row.insert('test')
+        self.assertEqual(table.dump(),
+                '<table><tr valign="top"><td>test</td></tr></table>')
+
 
 if __name__ == '__main__':
     testdir = 'tests'
