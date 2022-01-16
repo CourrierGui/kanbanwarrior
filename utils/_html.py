@@ -99,3 +99,17 @@ class Table:
         self.node.insert(node)
 
         return node
+
+
+class Anchor:
+
+    def __init__(self, link: str, child: Node = None):
+        self.child = child
+        self.link = link
+
+    def dump(self) -> str:
+        node = Node('a', tags='href="' + self.link + '"')
+        if self.child:
+            node.insert(self.child)
+
+        return node.dump()

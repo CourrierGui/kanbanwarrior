@@ -179,6 +179,14 @@ class TestHTMLGeneration(unittest.TestCase):
         self.assertEqual(table.dump(),
                 '<table><tr><td>test 1</td></tr><tr><td>test 2</td></tr></table>')
 
+    def test_empty_anchor(self):
+        a = html.Anchor('projects')
+        self.assertEqual(a.dump(), '<a href="projects"/>')
+
+    def test_anchor_with_text(self):
+        a = html.Anchor('projects', child=html.Text('test'))
+        self.assertEqual(a.dump(), '<a href="projects">test</a>')
+
 
 class TestTaskToHTMLConversions(unittest.TestCase):
 
