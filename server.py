@@ -8,7 +8,46 @@ from utils import _html
 app = Flask(__name__)
 
 
-def build_table_from_query(query: str) -> _html.Table:
+def build_domain_table() -> _html.Table:
+    table = _html.Table()
+    domains = tw.list_domains()
+
+    header = table.make_header()
+    header.insert('Domains')
+
+    for domain in domains:
+        row = table.add_row()
+        a = _html.Anchor('/domains/'+domain,
+                         _html.Button(_html.Text(domain)))
+        row.insert_node(a)
+
+    return table
+
+
+def build_project_table() -> _html.Table:
+    projects = tw.list_projects()
+    table = _html.Table()
+
+    header = table.make_header()
+    header.insert('Projects')
+
+    for project in projects:
+        row = table.add_row()
+        a = _html.Anchor('/projects/' + project,
+                         _html.Button(_html.Text(project)))
+        row.insert_node(a)
+
+    return table
+
+
+def build_kanban_board(action: str, value: str) -> _html.Table:
+    if action == 'projects':
+        query = '+' + value
+    elif action == 'domains':
+        query = 'project:' + value
+    else:
+        return None
+
     inbox = cli.table_from_query(query, 'status:pending', '-ACTIVE',
                                  '+inbox', 'export')
     todo = cli.table_from_query(query, 'status:pending', '-ACTIVE',
@@ -37,52 +76,28 @@ def build_table_from_query(query: str) -> _html.Table:
     return table
 
 
+def build_page(action: str, value: str) -> _html.Table:
+    main = _html.Table()
+    rows = main.add_row(align_top=True)
+
+    rows.insert_node(build_domain_table())
+    rows.insert_node(build_project_table())
+    kanban = build_kanban_board(action, value);
+    if kanban:
+        rows.insert_node(kanban)
+
+    return main
+
+
 @app.route('/')
 def get_backlog():
     table = cli.build_page()
     return table.dump()
 
 
-@app.route('/projects')
-def get_projects():
-    table = _html.Table()
-    projects = tw.list_projects()
-
-    header = table.make_header()
-    header.insert('Projects')
-
-    for project in projects:
-        row = table.add_row()
-        row.insert(project)
-
-    return table.dump()
-
-
-@app.route('/domains')
-def get_domains():
-    table = _html.Table()
-    domains = tw.list_domains()
-
-    header = table.make_header()
-    header.insert('Domains')
-
-    for domain in domains:
-        row = table.add_row()
-        row.insert(domain)
-
-    return table.dump()
-
-
 @app.route('/<string:action>/<string:name>')
 def get_project_backlog(action: str, name: str):
-    if action == 'domain':
-        table = build_table_from_query('project:' + name)
-    elif action == 'project':
-        table = build_table_from_query('+' + name)
-    else:
-        return 'page not found'
-
-    return table.dump()
+    return build_page(action, name).dump()
 
 
 if __name__ == '__main__':
