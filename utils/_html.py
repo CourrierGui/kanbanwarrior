@@ -113,3 +113,15 @@ class Anchor:
             node.insert(self.child)
 
         return node.dump()
+
+
+class Button:
+
+    def __init__(self, child: Node = None):
+        self.child = child
+
+    def dump(self) -> str:
+        node = Node('button')
+        if self.child:
+            node.insert(self.child)
+        return node.dump()

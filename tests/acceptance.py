@@ -187,6 +187,19 @@ class TestHTMLGeneration(unittest.TestCase):
         a = html.Anchor('projects', child=html.Text('test'))
         self.assertEqual(a.dump(), '<a href="projects">test</a>')
 
+    def test_empty_button(self):
+        button = html.Button()
+        self.assertEqual(button.dump(), '<button/>')
+
+    def test_named_button(self):
+        button = html.Button(child=html.Text('test'))
+        self.assertEqual(button.dump(), '<button>test</button>')
+
+    def test_button_with_link(self):
+        a = html.Anchor('link', child=html.Button(html.Text('click me')))
+        self.assertEqual(a.dump(),
+                '<a href="link"><button>click me</button></a>')
+
 
 class TestTaskToHTMLConversions(unittest.TestCase):
 
