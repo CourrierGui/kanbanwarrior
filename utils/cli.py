@@ -30,7 +30,7 @@ def exec_page():
 
     table = html.Table()
     header = table.make_header()
-    row = table.add_row()
+    row = table.add_row(align_top=True)
 
     header.insert('Inbox')
     row.insert_node(inbox)
