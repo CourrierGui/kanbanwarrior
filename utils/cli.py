@@ -26,7 +26,8 @@ def exec_page():
     inbox = table_from_query('status:pending', '-ACTIVE', '+inbox', 'export')
     todo = table_from_query('status:pending', '-ACTIVE', '-inbox', 'export')
     inprogress = table_from_query('export', 'active')
-    done = table_from_query('end.after:today-1wk', 'export', 'completed')
+    done = tw.list_tasks('end.after:today-1wk', 'export', 'completed')
+    done = tc.tasks_to_table(done, id=False)
 
     table = html.Table()
     header = table.make_header()
