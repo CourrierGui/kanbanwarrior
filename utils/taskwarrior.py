@@ -47,5 +47,9 @@ def list_projects():
     return list(set(tags).difference(default_tags))
 
 
+def list_tasks(*args: str):
+    return json.loads(run_task(*args).stdout)
+
+
 def list_pending(*args: str):
-    return json.loads(run_task('status:pending', *args, 'export').stdout)
+    return list_tasks('status:pending', *args, 'export')

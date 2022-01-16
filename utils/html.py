@@ -53,6 +53,11 @@ class TableRow:
     def insert(self, content: str) -> None:
         self.row.insert(TableData(content))
 
+    def insert_node(self, node: Node) -> None:
+        td = Node('td')
+        td.nodes.append(node)
+        self.row.insert(td)
+
 
 class TableHeader:
 
