@@ -99,10 +99,7 @@ def build_page(action: str, value: str) -> _html.Table:
 @app.route('/')
 def get_backlog():
     table = cli.build_page()
-    if not table:
-        return 'page not found'
-    else:
-        return table.dump()
+    return table.dump() if table else 'page not found'
 
 
 @app.route('/<string:action>/<string:name>')
