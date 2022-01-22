@@ -221,14 +221,14 @@ class TestHTMLGeneration(unittest.TestCase):
         self.assertEqual(link.dump(), '<link/>')
 
     def test_link_css_file(self):
-        link = html.Link(rel='stylesheet', href='style/style.css')
+        link = html.Link(rel='stylesheet', href='style/style.css', type='text/css')
         self.assertEqual(link.dump(),
-                '<link rel="stylesheet" href="style/style.css"/>')
+                '<link rel="stylesheet" type="text/css" href="style/style.css"/>')
 
     def test_page_with_css(self):
         page = html.Page('Title', css='style/style.css')
         self.assertEqual(page.dump(),
-                '<!DOCTYPE html><html><head><meta charset="utf-8"/><link rel="stylesheet" href="style/style.css"/><title>Title</title></head><body/></html>')
+                '<!DOCTYPE html><html><head><meta charset="utf-8"/><link rel="stylesheet" type="text/css" href="style/style.css"/><title>Title</title></head><body/></html>')
 
 
 class TestTaskToHTMLConversions(unittest.TestCase):

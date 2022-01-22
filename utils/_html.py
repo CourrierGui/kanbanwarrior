@@ -158,7 +158,7 @@ class Page:
         title.insert(Text(self.title))
         head.insert(Node('meta', tags='charset="utf-8"'))
         if self.css:
-            head.insert(Link(rel='stylesheet', href=self.css))
+            head.insert(Link(rel='stylesheet', type='text/css', href=self.css))
 
         head.insert(title)
 
@@ -167,13 +167,15 @@ class Page:
 
 class Link:
 
-    def __init__(self, rel: str='', href: str=''):
+    def __init__(self, rel: str='', type: str='', href: str=''):
         self.rel = rel
         self.href = href
+        self.type = type
 
     def dump(self) -> str:
-        value = 'rel="' + self.rel + '"' if self.rel else ''
-        value += ' href="' + self.href + '"' if self.href else ''
+        value = 'rel="' + self.rel + '" ' if self.rel else ''
+        value += 'type="' + self.type + '" ' if self.type else ''
+        value += 'href="' + self.href + '"' if self.href else ''
 
         return Node('link', tags=value).dump()
 

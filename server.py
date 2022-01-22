@@ -91,7 +91,7 @@ def build_page(action: str, value: str) -> _html.Table:
     if kanban:
         rows.insert_node(kanban)
 
-    page = _html.Page('My Kanban')
+    page = _html.Page('My Kanban', css='/static/styles/style.css')
     page.insert(main)
     return page
 
