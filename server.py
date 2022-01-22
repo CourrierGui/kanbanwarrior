@@ -91,7 +91,9 @@ def build_page(action: str, value: str) -> _html.Table:
     if kanban:
         rows.insert_node(kanban)
 
-    return main
+    page = _html.Page('My Kanban')
+    page.insert(main)
+    return page
 
 
 @app.route('/')
