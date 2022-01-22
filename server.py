@@ -46,7 +46,7 @@ def build_kanban_board(action: str, value: str) -> _html.Table:
     else:
         return None
 
-    inbox = cli.table_from_query(query, 'status:pending', '-ACTIVE',
+    inbox = cli.table_from_query('status:pending', '-ACTIVE',
                                  '+inbox', 'export')
     todo = cli.table_from_query(query, 'status:pending', '-ACTIVE',
                                 '-inbox', 'export')
