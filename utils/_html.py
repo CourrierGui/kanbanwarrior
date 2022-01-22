@@ -138,9 +138,10 @@ class Comment:
 
 class Page:
 
-    def __init__(self, title: str):
+    def __init__(self, title: str, css: str=''):
         self.title = title
         self.body = Node('body')
+        self.css = css
 
     def insert(self, child: Node) -> None:
         self.body.insert(child)
@@ -156,7 +157,23 @@ class Page:
         page.insert(self.body)
         title.insert(Text(self.title))
         head.insert(Node('meta', tags='charset="utf-8"'))
+        if self.css:
+            head.insert(Link(rel='stylesheet', href=self.css))
+
         head.insert(title)
 
         return comment.dump() + page.dump()
+
+
+class Link:
+
+    def __init__(self, rel: str='', href: str=''):
+        self.rel = rel
+        self.href = href
+
+    def dump(self) -> str:
+        value = 'rel="' + self.rel + '"' if self.rel else ''
+        value += ' href="' + self.href + '"' if self.href else ''
+
+        return Node('link', tags=value).dump()
 
