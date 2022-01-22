@@ -125,3 +125,35 @@ class Button:
         if self.child:
             node.insert(self.child)
         return node.dump()
+
+
+class Comment:
+
+    def __init__(self, comment: str):
+        self.comment = comment
+
+    def dump(self) -> str:
+        return '<!' + self.comment + '>'
+
+
+class Page:
+
+    def __init__(self, title: str):
+        self.title = title
+
+    def dump(self) -> str:
+        comment = Comment('DOCTYPE html')
+
+        page = Node('html')
+        head = Node('head')
+        body = Node('body')
+        title = Node('title')
+
+        page.insert(head)
+        page.insert(body)
+        title.insert(Text(self.title))
+        head.insert(Node('meta', tags='charset="utf-8"'))
+        head.insert(title)
+
+        return comment.dump() + page.dump()
+

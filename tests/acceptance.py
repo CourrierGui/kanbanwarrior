@@ -200,6 +200,15 @@ class TestHTMLGeneration(unittest.TestCase):
         self.assertEqual(a.dump(),
                 '<a href="link"><button>click me</button></a>')
 
+    def test_comment(self):
+        comment = html.Comment('comment')
+        self.assertEqual(comment.dump(), "<!comment>")
+
+    def test_main_empty_page(self):
+        page = html.Page('Title')
+        self.assertEqual(page.dump(),
+                '<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Title</title></head><body/></html>')
+
 
 class TestTaskToHTMLConversions(unittest.TestCase):
 
