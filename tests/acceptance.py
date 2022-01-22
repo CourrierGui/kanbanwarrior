@@ -209,6 +209,13 @@ class TestHTMLGeneration(unittest.TestCase):
         self.assertEqual(page.dump(),
                 '<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Title</title></head><body/></html>')
 
+    def test_main_page(self):
+        page = html.Page('Title')
+        page.insert(html.Text('test'))
+
+        self.assertEqual(page.dump(),
+                '<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Title</title></head><body>test</body></html>')
+
 
 class TestTaskToHTMLConversions(unittest.TestCase):
 

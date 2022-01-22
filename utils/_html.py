@@ -140,17 +140,20 @@ class Page:
 
     def __init__(self, title: str):
         self.title = title
+        self.body = Node('body')
+
+    def insert(self, child: Node) -> None:
+        self.body.insert(child)
 
     def dump(self) -> str:
         comment = Comment('DOCTYPE html')
 
         page = Node('html')
         head = Node('head')
-        body = Node('body')
         title = Node('title')
 
         page.insert(head)
-        page.insert(body)
+        page.insert(self.body)
         title.insert(Text(self.title))
         head.insert(Node('meta', tags='charset="utf-8"'))
         head.insert(title)
