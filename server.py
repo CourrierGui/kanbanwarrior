@@ -46,8 +46,6 @@ def build_kanban_board(action: str, value: str) -> _html.Table:
     else:
         return None
 
-    inbox = cli.table_from_query('status:pending', '-ACTIVE',
-                                 '+inbox', 'export')
     todo = cli.table_from_query(query, 'status:pending', '-ACTIVE',
                                 '-inbox', 'export')
     inprogress = cli.table_from_query(query, 'export', 'active')
@@ -58,9 +56,6 @@ def build_kanban_board(action: str, value: str) -> _html.Table:
     table = _html.Table()
     header = table.make_header()
     row = table.add_row(align_top=True)
-
-    header.insert('Inbox')
-    row.insert_node(inbox)
 
     header.insert('TODO')
     row.insert_node(todo)
@@ -77,19 +72,36 @@ def build_kanban_board(action: str, value: str) -> _html.Table:
 def build_page(action: str, value: str) -> _html.Table:
     main = _html.Table()
     rows = main.add_row(align_top=True)
+    kanban = build_kanban_board(action, value);
 
-    if action == 'projects':
-        rows.insert_node(build_project_table(tw.list_projects()))
-        rows.insert_node(build_domain_table(tw.list_domains(value)))
-    elif action == 'domains':
-        rows.insert_node(build_domain_table(tw.list_domains()))
+    inbox_table = _html.Table()
+    inbox_header = inbox_table.add_row()
+    inbox_header.insert('<b>Inbox</b>')
+    inbox_content = inbox_table.add_row()
+    inbox_content.insert_node(cli.table_from_query('status:pending', '-ACTIVE',
+                                                   '+inbox', 'export'))
+
+    rows.insert_node(inbox_table)
+    rows.insert_node(build_domain_table(tw.list_domains()))
+    if action == 'domains':
         rows.insert_node(build_project_table(tw.list_projects(value)))
+
+
+    if action == 'domains' and kanban:
+        rows.insert_node(kanban)
+    elif action == 'projects':
+
+        sub = _html.Table()
+        project = sub.add_row()
+        project.insert('<b>Project:</b> ' + value)
+        k = sub.add_row()
+        if kanban:
+            k.insert_node(kanban)
+
+        rows.insert_node(sub)
     else:
         return None
 
-    kanban = build_kanban_board(action, value);
-    if kanban:
-        rows.insert_node(kanban)
 
     page = _html.Page('My Kanban', css='/static/styles/style.css')
     page.insert(main)
