@@ -1,0 +1,106 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr;
+}
+.inbox,
+.menu,
+.kanban {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+.inbox,
+.kanban {
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.kanban {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.kanban table {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+.hidden td {
+  visibility: hidden;
+}
+#done {
+  background-color: lightgreen;
+}
+#inbox {
+  background-color: lightgrey;
+}
+#todo {
+  background-color: skyblue;
+}
+#in-progress {
+  background-color: lightsalmon;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+table {
+  height: 100%;
+  border: 1px solid grey;
+  border-radius: 3px;
+  background-color: #F7F7F7;
+}
+table tbody,
+table thead {
+  display: block;
+}
+table thead {
+  border-bottom: 1px solid grey;
+  height: 5%;
+}
+table thead .arrow {
+  font-size: 2rem;
+}
+table thead .title {
+  min-width: 5vw;
+  border-radius: 25px;
+}
+table tbody {
+  overflow: auto;
+  height: 95%;
+}
+table td {
+  width: 500px;
+  /* Is there a better way to make table cells fill column width? */
+  padding-left: 5%;
+  padding-right: 5%;
+  border: 1px solid grey;
+  border-radius: 3px;
+  background-color: #FAFAFA;
+}
+table td .description {
+  text-align: justify;
+  text-justify: inter-word;
+}
+table td .id {
+  color: gray;
+}
+.menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* FIXME the menu is greater than the viewport be without height: 100%, the whole
+     * this colapses.
+     */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  border: 1px solid grey;
+}
+.menu ul {
+  list-style: none;
+}
+.menu li {
+  text-align: left;
+}
+.domains ul li:before {
+  content: '\2B9E';
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="/static/styles/table.css"/>
+        <link rel="stylesheet" href="/static/styles/tree.css"/>
+    </head>
+    <body>
+        <div class="menu" style="text-align: center;">
+            <div>
+                <p><b>Domains</b></p>
+                <ul class="tree">
+                    {% for key, value in domains.items() -%}
+                    {% if value|length == 0 -%}
+                    <li><a href="/domains/{{ key }}">{{ key }}</a></li>
+                    {% else -%}
+                    <li class="section">
+                        <input type="checkbox" id="group{{ key }}"/>
+                        <label for="group{{ key }}">{{ key }}</label>
+                        <ul>
+                            {% for v in value -%}
+                            <li><a href="/domains/{{ key }}.{{ v }}">{{ v }}</a></li>
+                            {% endfor -%}
+                        </ul>
+                    </li>
+                    {% endif -%}
+                    {% endfor -%}
+                </ul>
+            </div>
+            <div>
+                <p><b>Projects</b></p>
+                <ul class="tree">
+                    {% for project in projects -%}
+                    <li><a href="/projects/{{ project }}">{{ project }}</a></li>
+                    {% endfor -%}
+                </ul>
+            </div>
+        </div>
+
+        <div class="inbox" style="text-align: center;">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="arrow">&#8250;</th>
+                        <th class="title" id="inbox">
+                            Inbox
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inbox -%}
+                    <tr>
+                        <td>
+                            <p class="description">{{ item['description'] }}</p>
+                            <p class="id">#{{ item['id'] }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="kanban">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="arrow">&#8250;</th>
+                        <th class="title" id="todo">TODO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in todo -%}
+                    <tr>
+                        <td>
+                            <p class="description">{{ item['description'] }}</p>
+                            <p class="id">#{{ item['id'] }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="arrow">&#8250;</th>
+                        <th class="title" id="in-progress">
+                            In Progress
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inprogress -%}
+                    <tr>
+                        <td>
+                            <p class="description">{{ item['description'] }}</p>
+                            <p class="id">#{{ item['id'] }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="arrow">&#8250;</th>
+                        <th class="title" id="done">Done</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in done -%}
+                    <tr>
+                        <td>
+                            <p class="description">{{ item['description'] }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
+
