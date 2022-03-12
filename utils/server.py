@@ -1,10 +1,10 @@
 from flask import Flask
 
-from utils import taskwarrior as tw
-from utils.kanban import KanbanPage
+from . import taskwarrior as tw
+from .kanban import KanbanPage
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../static')
 
 
 def build_page(action: str, value: str = '') -> KanbanPage:
@@ -34,7 +34,7 @@ def get_backlog():
 
 @app.route('/<string:action>/<string:name>')
 def get_project_backlog(action: str, name: str):
-    return build_page(action, value).html()
+    return build_page(action, name).html()
 
 
 if __name__ == '__main__':
