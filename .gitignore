@@ -1,7 +1,6 @@
-tags
+tags*
 TODO.md
 __pycache__
 tests/.task
 tests/.taskrc
-test
 kanbanwarrior.egg-info
