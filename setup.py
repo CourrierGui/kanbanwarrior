@@ -8,7 +8,7 @@ setup(
     url='https://github.com/CourrierGui/kanbanwarrior',
     description='An HTML/CSS frontend to taskwarrior to view tasks in a kanban board',
     license='GPLv3',
-    packages=['utils'],
-    package_dir={'utils': 'utils'},
+    packages=['kanbanwarrior'],
+    package_dir={'kanbanwarrior': 'kanbanwarrior'},
     scripts=['kanban'],
 )
