@@ -2,4 +2,9 @@
 Description=taskwarrior frontend to display tasks in a kanban board
 
 [Service]
-ExecStart=kanban server
+User=guillaume
+Environment=FLASK_APP=kanbanwarrior
+ExecStart=flask run
+
+[Install]
+WantedBy=multi-user.target

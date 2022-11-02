@@ -9,6 +9,11 @@ setup(
     description='An HTML/CSS frontend to taskwarrior to view tasks in a kanban board',
     license='GPLv3',
     packages=['kanbanwarrior'],
-    package_dir={'kanbanwarrior': 'kanbanwarrior'},
     scripts=['kanban'],
+    requires=['jinja2', 'flask'],
+    provides=['kanbanwarrior'],
+    include_package_data=True,
+    install_requires=[
+        'flask',
+    ],
 )

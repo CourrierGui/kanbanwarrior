@@ -31,9 +31,9 @@ several projects.
 ## Installation
 
 ```
-$ git clone https://github.com/CourrierGui/kanbanwarrior
-$ cd kanbanwarrior
-# pip install -e .
+git clone https://github.com/CourrierGui/kanbanwarrior
+cd kanbanwarrior
+pip install .
 ```
 
 ### Dependencies

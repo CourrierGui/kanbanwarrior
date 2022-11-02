@@ -4,17 +4,17 @@ from . import taskwarrior as tw
 from .kanban import KanbanPage
 
 
-app = Flask(__name__, static_folder='../static')
+app = Flask(__name__)
 
 
 def build_page(action: str, value: str = '') -> KanbanPage:
     page = KanbanPage()
 
     if action == 'projects':
-        query = '+' + value if value is not '' else ''
+        query = '+' + value if value != '' else ''
         page.projects(tw.list_projects())
     elif action == 'domains':
-        query = 'pro:' + value if value is not '' else ''
+        query = 'pro:' + value if value != '' else ''
         page.projects(tw.list_projects(value))
 
     page.domains(tw.list_domains())

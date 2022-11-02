@@ -1,4 +1,4 @@
-from jinja2 import FileSystemLoader, Environment
+from flask import render_template
 
 
 class KanbanPage:
@@ -34,11 +34,8 @@ class KanbanPage:
         self._done = values
 
     def html(self) -> str:
-        file_loader = FileSystemLoader('.')
-        env = Environment(loader=file_loader)
-
-        template = env.get_template('template.html')
-        return template.render(title='My Kanban',
+        return render_template('template.html',
+                               title='My Kanban',
                                inbox=self._inbox,
                                todo=self._todo,
                                inprogress=self._inprogress,
