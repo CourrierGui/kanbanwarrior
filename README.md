@@ -31,9 +31,9 @@ several projects.
 ## Installation
 
 ```
-git clone https://github.com/CourrierGui/kanbanwarrior
-cd kanbanwarrior
-pip install .
+$ git clone https://github.com/CourrierGui/kanbanwarrior
+$ cd kanbanwarrior
+# pip install .
 ```
 
 ### Dependencies
@@ -42,9 +42,13 @@ This project depends on `jinja2`, `flask` and `taskwarrior`.
 
 ## How to use
 
-Start a local server to query different kanban boards:
+`kanban server` is currently broken. Use the systemctl service instead.
+
 ```
-kanban server
+$ cd kanbanwarrior
+# cp kanban.service /etc/systemd/system
+# systemctl enable kanban
+# systemctl start kanban
 ```
 
 Then, access the boards with:
