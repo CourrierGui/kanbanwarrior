@@ -56,9 +56,7 @@ Then, access the boards with:
 
 ## TODO
 
-- fix acceptance tests
 - add link between tasks
 - display annotations
 - display the project of a task
 - add more control over queries
-- refactor tests
