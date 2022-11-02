@@ -6,7 +6,7 @@ from the PARA and GTD methods.
 ## Features
 
 This front end display tasks in a classic kanban: `TODO`, `In Progress` and `Done`.
-- `TODO`: contains every task not starting in `taskwarrior`
+- `TODO`: contains every task not started in `taskwarrior`
 - `In Progress`: contains every started ones
 - `Done`: contains every tasks done
 
